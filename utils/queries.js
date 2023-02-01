@@ -10,7 +10,8 @@ const db = mysql.createConnection({
 
 const queryNewEmployee = async (firstName, lastName, role, manager) => {
   const query = await db.query(
-    `INSERT INTO employees (first_name,last_name,role,manager) VALUES(${firstName},${lastName},${role},${manager})`,
+    "INSERT INTO employees (first_name,last_name,role,manager) VALUES(?,?,?,?)",
+    [firstName, lastName, role, manager],
     (err, results) => {
       if (err) {
         throw err;
