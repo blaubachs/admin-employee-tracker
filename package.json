@@ -1,0 +1,23 @@
+{
+  "name": "admin-employee-tracker",
+  "version": "1.0.0",
+  "description": "A command line application to keep track of your employees.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blaubachs/admin-employee-tracker.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blaubachs/admin-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/blaubachs/admin-employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql": "^2.18.1"
+  }
+}
