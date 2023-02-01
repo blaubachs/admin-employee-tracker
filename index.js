@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
+const utilQueries = require("./utils/queries");
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -82,7 +83,37 @@ const addRole = async () => {
 };
 
 const addNewEmployee = async () => {
-  console.log("You chose addNewEmp");
+  const newEmpPrompt = await inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the employees first name?",
+      name: "empFirstName",
+    },
+    {
+      type: "input",
+      message: "What is the employees Last name?",
+      name: "empLastName",
+    },
+    {
+      type: "input",
+      message: "What is the employees role?",
+      name: "empRole",
+    },
+    {
+      type: "input",
+      message: "Who is this employees manager?",
+      name: "empManager",
+    },
+  ]);
+
+  const { empFirstName, empLastName, empRole, empManager } = newEmpPrompt;
+  const runQuery = await utilQueries(
+    empFirstName,
+    empLastName,
+    empRole,
+    empManager
+  );
+  console.log("How we do?");
   init();
 };
 

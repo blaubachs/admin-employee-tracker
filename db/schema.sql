@@ -5,9 +5,12 @@ CREATE DATABASE employees_db;
 USE employees_db;
 
 CREATE TABLE
-    test(
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        test VARCHAR(30)
+    employees (
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        first_name VARCHAR(30) NOT NULL,
+        last_name VARCHAR(30) NOT NULL,
+        role VARCHAR(30) NOT NULL,
+        manager VARCHAR(30)
     );
 
-DESCRIBE test;
+DESCRIBE employees;
