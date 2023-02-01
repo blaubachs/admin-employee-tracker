@@ -113,7 +113,6 @@ const addNewEmployee = async () => {
     empRole,
     empManager
   );
-  console.log("How we do?");
   init();
 };
 
