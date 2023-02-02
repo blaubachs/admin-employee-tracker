@@ -21,7 +21,6 @@ const queryNewEmployee = async (firstName, lastName, role, manager) => {
     }
   );
   console.log("Updated");
-  // need employee name, role, manager
 };
 
 module.exports = queryNewEmployee;

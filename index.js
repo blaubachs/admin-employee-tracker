@@ -78,6 +78,24 @@ const addNewDepartment = async () => {
 };
 
 const addRole = async () => {
+  const newRolePrompt = await inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the name of the role?",
+      name: "newRoleName",
+    },
+    {
+      type: "number",
+      message: "What is the salary of this role?",
+      name: "newRoleSalary",
+    },
+    {
+      type: "list",
+      message: "What department does this role belong to?",
+      choices: "",
+      name: "newRoleDep",
+    },
+  ]);
   console.log("You chose addRole");
   init();
 };
@@ -105,7 +123,6 @@ const addNewEmployee = async () => {
       name: "empManager",
     },
   ]);
-
   const { empFirstName, empLastName, empRole, empManager } = newEmpPrompt;
   const runQuery = await utilQueries(
     empFirstName,

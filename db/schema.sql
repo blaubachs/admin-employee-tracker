@@ -12,9 +12,9 @@ CREATE TABLE
 
 CREATE TABLE
     roles (
-        is INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        Foreign Key (dep_name) REFERENCES departments(id),
-        dep_name VARCHAR(30) ON DELETE CASCADE
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        Foreign Key (dep_id) REFERENCES departments(id),
+        dep_id INT
     );
 
 CREATE TABLE
@@ -22,8 +22,11 @@ CREATE TABLE
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         first_name VARCHAR(30) NOT NULL,
         last_name VARCHAR(30) NOT NULL,
-        role VARCHAR(30) NOT NULL,
-        manager VARCHAR(30)
+        role_id INT,
+        FOREIGN KEY (role_id) REFERENCES roles(id),
+        manager_id VARCHAR(30),
+        Foreign Key (manager_id) REFERENCES employee(id) ON DELETE
+        SET NULL
     );
 
 DESCRIBE employees;
