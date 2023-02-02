@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
+const util = require("util");
 const utilQueries = require("./utils/queries");
 
 const db = mysql.createConnection({
@@ -101,6 +102,28 @@ const addRole = async () => {
 };
 
 const addNewEmployee = async () => {
+  let roleArr = [];
+  let managerArr = [];
+
+  db.query("SELECT role_name FROM roles;", (err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      for (let i = 0; i < response.length; i++) {
+        roleArr.push(response[i].role_name);
+      }
+    }
+  });
+
+  db.query("SELECT first_name, last_name FROM employees;", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      for (let i = 0; i < result.length; i++) {
+        managerArr.push(`${result[i].first_name} ${result[i].last_name}`);
+      }
+    }
+  });
   const newEmpPrompt = await inquirer.prompt([
     {
       type: "input",
@@ -113,22 +136,26 @@ const addNewEmployee = async () => {
       name: "empLastName",
     },
     {
-      type: "input",
+      type: "list",
       message: "What is the employees role?",
+      choices: roleArr,
       name: "empRole",
     },
     {
-      type: "input",
+      type: "list",
       message: "Who is this employees manager?",
+      choices: managerArr,
       name: "empManager",
     },
   ]);
   const { empFirstName, empLastName, empRole, empManager } = newEmpPrompt;
-  const runQuery = await utilQueries(
+  let roleId = roleArr.indexOf(empRole) + 1;
+  let managerId = managerArr.indexOf(empManager) + 1;
+  const runQuery = await utilQueries.queryNewEmployee(
     empFirstName,
     empLastName,
-    empRole,
-    empManager
+    roleId,
+    managerId
   );
   init();
 };
