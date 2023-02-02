@@ -58,31 +58,28 @@ const init = async () => {
   }
 };
 
-const viewDepartments = () => {
-  db.query("SELECT * FROM departments", (err, results) => {
-    if (err) {
-      throw err;
-    } else {
-      console.table(results);
-      init();
-    }
-  });
+const viewDepartments = async () => {
+  const allDeps = await utilQueries.viewAllDepartments();
+  if (allDeps) {
+    console.table(allDeps);
+    init();
+  }
 };
 
-const viewEmployeeRoles = () => {
-  db.query("SELECT * FROM roles", (err, results) => {
-    if (err) {
-      throw err;
-    } else {
-      console.table(results);
-      init();
-    }
-  });
+const viewEmployeeRoles = async () => {
+  const allRoles = await utilQueries.viewAllRoles();
+  if (allRoles) {
+    console.table(allRoles);
+    init();
+  }
 };
 
 const viewEmployees = async () => {
-  console.log("You chose viewEmps");
-  init();
+  const allEmps = await utilQueries.viewAllEmployees();
+  if (allEmps) {
+    console.table(allEmps);
+    init();
+  }
 };
 
 const addNewDepartment = async () => {
