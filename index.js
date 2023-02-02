@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const utilQueries = require("./utils/queries");
+const promises = require("./utils/promises");
 const table = require("console.table");
 
 const db = mysql.createConnection({
@@ -59,26 +60,38 @@ const init = async () => {
 };
 
 const viewDepartments = async () => {
-  const allDeps = await utilQueries.viewAllDepartments();
-  if (allDeps) {
-    console.table(allDeps);
-    init();
+  const allDeps = await promises.viewAllDepartments();
+  try {
+    if (allDeps) {
+      console.table(allDeps);
+      init();
+    }
+  } catch (err) {
+    throw err;
   }
 };
 
 const viewEmployeeRoles = async () => {
-  const allRoles = await utilQueries.viewAllRoles();
-  if (allRoles) {
-    console.table(allRoles);
-    init();
+  const allRoles = await promises.viewAllRoles();
+  try {
+    if (allRoles) {
+      console.table(allRoles);
+      init();
+    }
+  } catch (err) {
+    throw err;
   }
 };
 
 const viewEmployees = async () => {
-  const allEmps = await utilQueries.viewAllEmployees();
-  if (allEmps) {
-    console.table(allEmps);
-    init();
+  const allEmps = await promises.viewAllEmployees();
+  try {
+    if (allEmps) {
+      console.table(allEmps);
+      init();
+    }
+  } catch (err) {
+    throw err;
   }
 };
 

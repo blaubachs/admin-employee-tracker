@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const table = require("console.table");
 
 const db = mysql.createConnection({
@@ -24,45 +24,6 @@ const queryNewEmployee = async (firstName, lastName, role, manager) => {
   console.log("Updated");
 };
 
-const viewAllDepartments = () => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM departments", (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-};
-
-const viewAllRoles = () => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM roles", (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-};
-
-const viewAllEmployees = () => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM employees", (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-};
-
 module.exports = {
   queryNewEmployee,
-  viewAllDepartments,
-  viewAllRoles,
-  viewAllEmployees,
 };
