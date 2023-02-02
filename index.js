@@ -59,8 +59,7 @@ const init = async () => {
 };
 
 const viewDepartments = async () => {
-  console.log("You chose viewDeps");
-  init();
+  utilQueries.viewAllDepartments();
 };
 
 const viewEmployeeRoles = async () => {

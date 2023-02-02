@@ -23,4 +23,15 @@ const queryNewEmployee = async (firstName, lastName, role, manager) => {
   console.log("Updated");
 };
 
-module.exports = { queryNewEmployee };
+const viewAllDepartments = async () => {
+  db.query("SELECT * FROM departments", (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      console.table(results);
+    }
+  });
+  const reInit = await init();
+};
+
+module.exports = { queryNewEmployee, viewAllDepartments };
