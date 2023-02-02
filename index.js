@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
-const mysql = require("mysql");
-const util = require("util");
+const mysql = require("mysql2");
 const utilQueries = require("./utils/queries");
+const table = require("console.table");
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -58,13 +58,26 @@ const init = async () => {
   }
 };
 
-const viewDepartments = async () => {
-  utilQueries.viewAllDepartments();
+const viewDepartments = () => {
+  db.query("SELECT * FROM departments", (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      console.table(results);
+      init();
+    }
+  });
 };
 
-const viewEmployeeRoles = async () => {
-  console.log("You chose view empRoles");
-  init();
+const viewEmployeeRoles = () => {
+  db.query("SELECT * FROM roles", (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      console.table(results);
+      init();
+    }
+  });
 };
 
 const viewEmployees = async () => {

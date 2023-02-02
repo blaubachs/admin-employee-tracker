@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+const table = require("console.table");
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -23,15 +24,4 @@ const queryNewEmployee = async (firstName, lastName, role, manager) => {
   console.log("Updated");
 };
 
-const viewAllDepartments = async () => {
-  db.query("SELECT * FROM departments", (err, results) => {
-    if (err) {
-      throw err;
-    } else {
-      console.table(results);
-    }
-  });
-  const reInit = await init();
-};
-
-module.exports = { queryNewEmployee, viewAllDepartments };
+module.exports = { queryNewEmployee };
