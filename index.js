@@ -56,7 +56,7 @@ const init = async () => {
       break;
     case "Quit":
       console.log("Goodbye!");
-      break;
+      return;
   }
 };
 
@@ -180,7 +180,36 @@ const addNewEmployee = async () => {
 };
 
 const updateEmployee = async () => {
-  console.log("You chose updEmp");
+  const empNames = await promises.getAllEmployeeNames();
+  const roles = await promises.getAllRoles();
+  const updateEmpPrompt = await inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the employees first name?",
+      name: "empFirstName",
+    },
+    {
+      type: "input",
+      message: "What is the employees Last name?",
+      name: "empLastName",
+    },
+    {
+      type: "list",
+      message: "What is the employees new role?",
+      choices: roles,
+      name: "empRole",
+    },
+    {
+      type: "list",
+      message: "Who is this employees new manager?",
+      choices: empNames,
+      name: "empManager",
+    },
+  ]);
+  let { empRole, empManager, empFirstName, empLastName } = updateEmpPrompt;
+  let roleId = roles.indexOf(empRole) + 1;
+  let managerId = empNames.indexOf(empManager) + 1;
+  utilQueries.queryUpdateEmployee(roleId, managerId, empFirstName, empLastName);
   init();
 };
 

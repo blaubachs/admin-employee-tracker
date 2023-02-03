@@ -93,6 +93,26 @@ const viewAllEmployees = () => {
   });
 };
 
+const getEmployeeID = (firstName, lastName) => {
+  let tempArr = [];
+  return new Promise((resolve, reject) => {
+    db.query("SELECT first_name, last_name FROM employees", (err, results) => {
+      if (err) {
+        throw err;
+      } else {
+        for (let i = 0; i < results.length; i++) {
+          let dbFullName = `${results.first_name} ${results.last_name}`;
+          let enteredName = `${firstName} ${lastName}`;
+          if (dbFullName == enteredName) {
+            let empID = i + 1;
+            resolve(empID);
+          }
+        }
+      }
+    });
+  });
+};
+
 module.exports = {
   getAllEmployeeNames,
   getAllRoles,
