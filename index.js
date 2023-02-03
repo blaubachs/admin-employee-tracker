@@ -96,56 +96,45 @@ const viewEmployees = async () => {
 };
 
 const addNewDepartment = async () => {
+  const roles = await promises.getAllRoles();
   console.log("You chose addDep");
   init();
 };
 
 const addRole = async () => {
-  const newRolePrompt = await inquirer.prompt([
-    {
-      type: "input",
-      message: "What is the name of the role?",
-      name: "newRoleName",
-    },
-    {
-      type: "number",
-      message: "What is the salary of this role?",
-      name: "newRoleSalary",
-    },
-    {
-      type: "list",
-      message: "What department does this role belong to?",
-      choices: "",
-      name: "newRoleDep",
-    },
-  ]);
-  console.log("You chose addRole");
-  init();
+  try {
+    const departments = await promises.getAllDepartments();
+    const newRolePrompt = await inquirer.prompt([
+      {
+        type: "input",
+        message: "What is the name of the role?",
+        name: "newRoleName",
+      },
+      {
+        type: "number",
+        message: "What is the salary of this role?",
+        name: "newRoleSalary",
+      },
+      {
+        type: "list",
+        message: "What department does this role belong to?",
+        choices: departments,
+        name: "newRoleDep",
+      },
+    ]);
+    let { newRoleName, newRoleSalary, newRoleDep } = newRolePrompt;
+    let actualDepID = departments.indexOf(newRoleDep) + 1;
+    utilQueries.queryNewRole(newRoleName, newRoleSalary, actualDepID);
+    init();
+  } catch (err) {
+    throw err;
+  }
 };
 
 const addNewEmployee = async () => {
-  let roleArr = [];
-  let managerArr = [];
+  const empNames = await promises.getAllEmployeeNames();
+  const roles = await promises.getAllRoles();
 
-  db.query("SELECT role_name FROM roles;", (err, response) => {
-    if (err) {
-      console.log(err);
-    } else {
-      for (let i = 0; i < response.length; i++) {
-        roleArr.push(response[i].role_name);
-      }
-    }
-  });
-
-  db.query("SELECT first_name, last_name FROM employees;", (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      for (let i = 0; i < result.length; i++) {
-        managerArr.push(`${result[i].first_name} ${result[i].last_name}`);
-      }
-    }
-  });
   const newEmpPrompt = await inquirer.prompt([
     {
       type: "input",
@@ -160,19 +149,19 @@ const addNewEmployee = async () => {
     {
       type: "list",
       message: "What is the employees role?",
-      choices: roleArr,
+      choices: roles,
       name: "empRole",
     },
     {
       type: "list",
       message: "Who is this employees manager?",
-      choices: managerArr,
+      choices: empNames,
       name: "empManager",
     },
   ]);
   const { empFirstName, empLastName, empRole, empManager } = newEmpPrompt;
-  let roleId = roleArr.indexOf(empRole) + 1;
-  let managerId = managerArr.indexOf(empManager) + 1;
+  let roleId = roles.indexOf(empRole) + 1;
+  let managerId = empNames.indexOf(empManager) + 1;
   const runQuery = await utilQueries.queryNewEmployee(
     empFirstName,
     empLastName,
