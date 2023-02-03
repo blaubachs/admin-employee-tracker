@@ -56,6 +56,7 @@ const init = async () => {
       break;
     case "Quit":
       console.log("Goodbye!");
+      break;
   }
 };
 
@@ -96,8 +97,15 @@ const viewEmployees = async () => {
 };
 
 const addNewDepartment = async () => {
-  const roles = await promises.getAllRoles();
-  console.log("You chose addDep");
+  const newDepartmentPrompt = await inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the name of the department you would like to add?",
+      name: "newDepName",
+    },
+  ]);
+  let { newDepName } = newDepartmentPrompt;
+  utilQueries.queryNewDepartment(newDepName);
   init();
 };
 

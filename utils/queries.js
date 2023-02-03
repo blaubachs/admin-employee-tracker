@@ -9,6 +9,20 @@ const db = mysql.createConnection({
   multipleStatements: true,
 });
 
+const queryNewDepartment = (departmentName) => {
+  db.query(
+    "INSERT INTO departments(dep_name) VALUES(?)",
+    [departmentName],
+    (err, results) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log("Updated.");
+      }
+    }
+  );
+};
+
 const queryNewEmployee = (firstName, lastName, role, manager) => {
   db.query(
     "INSERT INTO employees (first_name,last_name,role_id,manager_id) VALUES(?,?,?,?);",
@@ -38,4 +52,5 @@ const queryNewRole = (roleName, roleSalary, departmentID) => {
 module.exports = {
   queryNewEmployee,
   queryNewRole,
+  queryNewDepartment,
 };
